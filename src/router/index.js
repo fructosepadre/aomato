@@ -10,6 +10,18 @@ const routes = [
   {
     path: '*',
     redirect: '/home'
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/views/SearchPage.vue')
+
+  },
+  {
+    path: '/restaurant-details',
+    name: 'restaurant-details',
+    component: () => import('@/views/Restaurant.vue')
+
   }
 ]
 

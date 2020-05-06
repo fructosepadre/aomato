@@ -6,7 +6,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import { BootstrapVueIcons } from 'bootstrap-vue'
+import {IconsPlugin } from 'bootstrap-vue'
 import BootstrapVue from 'bootstrap-vue'
+Vue.use(IconsPlugin)
 Vue.use(BootstrapVueIcons)
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
