@@ -3,8 +3,14 @@
          <div v-for="(item, index) in GET_RESTAURANTS" :key="index">
             <div class="card" @click="showProductDetails(item.restaurant.R.res_id)">
                     {{item.restaurant.name}}
+                    {{item.restaurant.location.locality}}
+                    {{item.restaurant.cuisines}}
+                    {{item.restaurant.location.city}}
+                    {{item.restaurant.timings}}
+                    {{item.restaurant.user_rating.aggregate_rating}}
             </div>
         </div>
+        <!-- {{GET_RESTAURANTS}} -->
     </div>
 </template>
 <script>
@@ -32,8 +38,7 @@ export default {
     width: 80vh;
     height: 30vh;
     margin-bottom: 10vh;
-    text-align:center;
+    /* text-align:center; */
     box-shadow: 0px 0px 2px 2px;
-    background-color: coral;
 }
 </style>
