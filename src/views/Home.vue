@@ -20,8 +20,12 @@ export default {
         home:true
     }),
     methods:{
-        showDetailsInSearch(data){
-            this.$store.dispatch('Restaurants',data).then(()=>{this.$router.push('/search')})
+        showDetailsInSearch(searchData){
+            const searchQuery={ 
+            data:searchData,
+            isSearchbox:false,
+           }
+            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')})
         }
     }
     

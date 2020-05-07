@@ -8,9 +8,10 @@ export default new Vuex.Store({
     state:{
         lat:'12.9151677',
         long:'77.6496451',
-        zomatoApiKey:'609580fc2c9ee708511fa0e89b3acef5',
+        zomatoApiKey:'326f2ea36d01cb28762a91cb7fb580bf',
         headerClicked:true,
         restaurants:{},
+        restaurants_from_search:{},
         categories:{},
         selectedRestaurant:'',
         restaurantDetails:{}
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     mutations:{
         SET_RESTAURANTS(state,data){
             state.restaurants=data
+        },
+        SET_RESTAURANTS_FROM_SEARCH(state,data){
+            state.restaurants_from_search=data
         },
         SET_CATEGORIES(state,data){
             state.categories=data
@@ -30,16 +34,19 @@ export default new Vuex.Store({
         }
     },
     actions:{
-        Restaurants(context,data){
+        Restaurants(context,{searchQuery}){
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
-            this.state.lat+"&lon="+this.state.long+"&count=8&q="+data,{
+            this.state.lat+"&lon="+this.state.long+"&count=8&q="+searchQuery.data,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
                     "content-type": "application/json"
                 }
                 })
               .then(function(response){
-                context.commit('SET_RESTAURANTS',response.data.restaurants)    
+                if(searchQuery.isSearchbox)
+                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)
+                else
+                    context.commit('SET_RESTAURANTS',response.data.restaurants)    
             })
         },
         Categories(context){
@@ -78,6 +85,9 @@ export default new Vuex.Store({
         },
         GET_RESTAURANT_DETAILS(state){
             return state.restaurantDetails
+        },
+        GET_RESTAURANTS_FROM_SEARCH(state){
+            return state.restaurants_from_search
         }
     },
     modules: {
