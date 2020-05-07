@@ -16,6 +16,9 @@ export default {
     mounted(){
         this.$store.dispatch('Categories')
     },
+    data: ()=>({
+        home:true
+    }),
     methods:{
         showDetailsInSearch(data){
             this.$store.dispatch('Restaurants',data).then(()=>{this.$router.push('/search')})

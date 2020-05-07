@@ -8,8 +8,8 @@
                 <h2>Discover the best food & drinks in Bangalore</h2>
                 <br>
                 <b-input-group>
-                    <b-input v-model="dish" v-on:keyup="getMenu" placeholder="Quarantine mei khud bana bro. Wase kya khayega?"></b-input>
-                    <b-button><b-icon-search></b-icon-search></b-button>
+                    <b-input v-model="dish" v-on:keyup="getMenu" placeholder="Quarantine mei khud bana bro. Wase kya khayega?" autocomplete="off"></b-input>
+                    <b-button @click="showResults"><b-icon-search></b-icon-search></b-button>
                 </b-input-group>
             </div>  
             <div v-if="dish.length>0" class="searchResultContainer">
@@ -31,19 +31,26 @@
 import {mapGetters} from 'vuex'
 export default {
     computed:{
-      ...mapGetters(['GET_RESTAURANTS'])
+      ...mapGetters(['GET_RESTAURANTS']),
+       currentRouteName() {
+        return this.$route.name;
+    }
     },
     data:()=>({
         dish:''
     }),
     methods:{
         getMenu: function(){
-            this.$store.dispatch('Restaurants',this.dish)
+           this.$store.dispatch('Restaurants',this.dish)
         },
         showProductDetails(data){
             this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')})
+            this.dish=''
         },
-        
+        showResults: function(){
+            this.$store.dispatch('Restaurants',this.dish).then(()=>{this.$router.push('/search')})
+            this.dish=''
+        }
     }
     
 }
@@ -86,7 +93,7 @@ h2{
     margin-top: 10px;
     text-align: center;
     opacity: 0.7;
-    box-shadow: 2px 2px 2px 2px;;
+    box-shadow: 2px 2px 2px 2px;
 }
 .searchResults:hover {  opacity:1;transform: scale(1.2)}
 
