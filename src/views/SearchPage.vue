@@ -36,7 +36,6 @@ export default {
             this.dish=''
         },
         slicing(data){
-            console.log(data)
             let data_to_splice=data
             if(data_to_splice.length<33)
                 return data_to_splice

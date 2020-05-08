@@ -67,8 +67,8 @@ export default new Vuex.Store({
                     context.commit('SET_CATEGORIES',response.data.categories)    
             })
         },
-        RestaurantDetails(context,data){
-            context.commit('SET_SELECTED_RESTAURANT',data)    
+        async RestaurantDetails(context,data){
+            // context.commit('SET_SELECTED_RESTAURANT',data)
             return Axios.get('https://developers.zomato.com/api/v2.1/restaurant?res_id='+data,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
@@ -76,6 +76,7 @@ export default new Vuex.Store({
                 }
                 })
               .then(function(response){
+                  console.log(response.data)
                     context.commit('SET_RESTAURANT_DETAILS',response.data)    
             })
         }

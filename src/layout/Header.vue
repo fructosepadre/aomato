@@ -9,11 +9,11 @@
                 <h2>Discover the best food & drinks in Bangalore</h2>
                 <br>
                 <b-input-group>
-                    <b-input v-model="dish" :state=emptyBar v-on:keyup="getMenu" placeholder="Quarantine mei khud bana bro. Wase kya khayega?" autocomplete="off"></b-input>
+                    <b-input v-model="dish" v-on:keyup="getMenu" placeholder="Quarantine mei khud bana bro. Wase kya khayega?" autocomplete="off"></b-input>
                     <b-button @click="showResults"><b-icon-search></b-icon-search></b-button>
                 </b-input-group>
             </div>  
-            <div v-if="dish.length>0" class="searchResultContainer">
+            <div class="searchResultContainer">
                 <div v-for="(item, index) in GET_SEARCH_DROPDOWN" :key="index" @click="showProductDetails(item.restaurant.R.res_id)">
                     <div class="searchResults">
                         <div>                        
@@ -41,7 +41,11 @@ export default {
         emptyBar:true
     }),
     methods:{
-        getMenu: function(){
+        getMenu: function(event){
+            if(this.dish.length<=1)
+                return this.$store.commit('SET_SEARCH_DROPDOWN',{})
+            if(event.key== "Enter")
+                return this.showResults()
             const searchQuery={ 
             data:this.dish,
             isSearchbox:"dropdown",
@@ -52,6 +56,8 @@ export default {
             this.$store.dispatch('RestaurantDetails',data)
                 .then(()=>{this.$router.push('restaurant-details')})
             this.dish=''
+            this.$store.commit('SET_SEARCH_DROPDOWN',{})
+
         },
         showResults: function(){
             if(this.dish.length===0){
@@ -62,15 +68,16 @@ export default {
             data:this.dish,
             isSearchbox:"true",
             }
-            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')})
+            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')
+            this.$store.commit('SET_SEARCH_DROPDOWN',{})
+            })
             this.dish=''
-            this.emptyBar=true;
         }
     }
     
 }
 </script>
-<style>
+<style lang="scss">
 .searchResults img{
     height:80%;
     border-radius: 10%;
@@ -78,7 +85,7 @@ export default {
 }
 .header{
     background-image: url('https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png');
-    height:65vh;
+    height:40vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -88,7 +95,7 @@ export default {
     transition: 0.8s;
 }
 .header:hover{
-    height:90vh;
+    height:80vh;
     transition: ease-out;
     transition: 1.2s;
 }
@@ -96,10 +103,6 @@ export default {
     height:80%;
     transition: 1.5s;
     margin-bottom: 1vh;
-}
-.searchBar:hover{
-    /* height:60%; */
-    transition: 1.2s;
 }
 .aomato{
     text-align: center;
