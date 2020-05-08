@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="page-body">
       <!-- {{GET_RESTAURANT_DETAILS.name}}<br>
       {{GET_RESTAURANT_DETAILS.location}}<br>
       {{GET_RESTAURANT_DETAILS.cuisines}}<br>
@@ -9,29 +9,30 @@
       {{GET_RESTAURANT_DETAILS.user_rating}}<br>
       {{GET_RESTAURANT_DETAILS.phone_numbers}}<br>              
       {{GET_RESTAURANT_DETAILS.establishment}}<br>              
-      {{GET_RESTAURANT_DETAILS.has_online_delivery}}<br> -->
-    -------------------------------<br>
-    |   {{this.location}}  Images  | (=================== {Hide ho jana chahiye}<br>
-    -------------------------------<br>
-    <br>
-    ---Fixed------------------                    {{this.establishment}}<br> 
-    |  {{this.name}}         |                   {{this.user_rating}}<br>
-    |  {{this.cuisines}}     |                    {{this.highlights}}<br>
-    |  {{this.timings}}      |                    {{this.phone_numbers}}<br>
-    ---Fixed -----------------                    {{this.has_online_delivery}}<br> 
-    <br>     
-    ---Menu image------------- 
-    <br>
-    {{this.average_cost_for_two}}
-    <br>
-    --Buttons--------------------
-    |  {{this.cuisines}} |
-    ---Buttons-------------------
-    <br>
-                           
-                   
- 
+      {{GET_RESTAURANT_DETAILS.has_online_delivery}}<br> -->            
+      <div class="imageCard">
+          <div class="main-image">
+            <img>
+          </div>
+          <div class="thumbnails">
+            <img><img><img><img>
+          </div>
+      </div>
+      <div class="restaurant-info">
+        <div class="restaurant" style="flex-basis:90%; text-align:left;">
+            <div style="font-size: 2em;">{{this.name}}<br></div>
+            <div style="font-size: 1em;">{{this.cuisines}}<br></div>
+            <div style="font-size: 1em; color:grey;">{{this.location.locality}}<br><br></div>
+            {{this.timings}}<br>
+            <div style="font-size: 1em; color:crimson;"><b>Average cost for 2 : Rs. {{average_cost_for_two}}</b><br></div>
+        </div>
+        <div class="rating" style="flex-basis:10%; text-align:center; border-radius:2vh; background-color:rgb(79, 223, 35);">
+          User Rating<hr>
+          {{this.user_rating.aggregate_rating}}<hr>
+          {{this.user_rating.votes}} votes
+        </div>
     </div>
+      </div>
 </template>
 <script>
 // import {mapGetters} from 'vuex'
@@ -55,5 +56,52 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style lang="scss">
+.page-body{
+  display: flex;
+  flex-direction: column;
+  justify-content:space-around;
+  padding-left: 10vh;
+  padding-right: 10vh;
+  background-color: white;
+}
+.imageCard{
+    padding-top: 10vh;
+    padding-bottom:5vh;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 2vh;
+}
+.restaurant-info{
+  margin-left: 5vh;
+  margin-right: 5vh;
+  height: 30vh;
+  display: flex;
+  flex-direction: row;
+  border-radius: 2vh;
+}
+.main-image{
+  flex-basis:60%;
+  img{
+    height: 100%;
+    width: 90%;
+    content: url('https://b.zmtcdn.com/data/pictures/5/52015/9a51034cd073de83a84ef133fe0b1945.jpg?output-format=webp');
+  }
+}
+.thumbnails{
+    flex-basis:40%;
+    img{
+      margin:0vh 1vw 1vw 0vw; 
+      height: 48%;
+      width: 45%;
+      content: url('https://b.zmtcdn.com/data/pictures/chains/7/19028937/2802b25da35e0b646095d4fcd785bf0a.jpg?output-format=webp');
+    }
+}
+img{
+   transition: 1s; 
+}
+img:hover{
+    filter: brightness(1.2);
+}
 </style>

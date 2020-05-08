@@ -38,7 +38,6 @@ export default {
     },
     data:()=>({
         dish:'',
-        emptyBar:true
     }),
     methods:{
         getMenu: function(event){
@@ -57,13 +56,8 @@ export default {
                 .then(()=>{this.$router.push('restaurant-details')})
             this.dish=''
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
-
         },
         showResults: function(){
-            if(this.dish.length===0){
-                this.emptyBar=false;
-                return false;}
-
             const searchQuery={ 
             data:this.dish,
             isSearchbox:"true",

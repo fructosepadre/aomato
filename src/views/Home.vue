@@ -27,7 +27,8 @@ export default {
             data:searchData,
             isSearchbox:"false",
             }
-            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.replace('/search')})
+            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.replace('/search')
+            this.$store.commit('SET_SEARCH_DROPDOWN',{})})
         }
     }
     

@@ -32,7 +32,8 @@ export default {
             return this.$store.getters.GET_RESTAURANTS_FROM_SEARCH.length;
         },
         showProductDetails(data){
-            this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')})
+            this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')
+            this.$store.commit('SET_SEARCH_DROPDOWN',{})})
             this.dish=''
         },
         slicing(data){
