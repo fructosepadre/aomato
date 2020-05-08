@@ -2,7 +2,15 @@
     <div class="page-body">
         <div v-for="(item, index) in GET_CATEGORIES" :key="index">
             <div class="card" @click="showDetailsInSearch(item.categories.name)">
-                {{item.categories.name}}
+                <div>
+                    <img src='https://i.ibb.co/sbkYD3d/64dffaa58ffa55a377cdf42b6a690e721585809275.png'>
+                </div>
+                <div>
+                    {{item.categories.name}}
+                </div>
+                 <div>
+                    <b-icon-search></b-icon-search>
+                </div>
             </div>
         </div>
     </div>
@@ -16,16 +24,13 @@ export default {
     mounted(){
         this.$store.dispatch('Categories')
     },
-    data: ()=>({
-        home:true
-    }),
     methods:{
         showDetailsInSearch(searchData){
             const searchQuery={ 
             data:searchData,
-            isSearchbox:false,
-           }
-            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')})
+            isSearchbox:"false",
+            }
+            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.replace('/search')})
         }
     }
     
@@ -36,18 +41,19 @@ export default {
     margin-top: 10vh;
     display: flex;
     flex-wrap: wrap;
-    margin-left: 10vh;
-    margin-right: 10vh;
-    justify-content: center;
+    justify-content: space-around;
 }
 .card{
-    background-image: url('https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png');
     width: 30vh;
-    height: 30vh;
-     margin-left: 2vh;
-    margin-right: 2vh;
+    height: 35vh;
     margin-bottom: 10vh;
-    box-shadow: 0px 0px 2px 2px;
-    background-color: coral;
+    display: flex;
+    flex-direction: column;
+    transition: 1s;
+}
+img{
+    width: 30vh;
+    height: 25vh;
+    transition: 1s;
 }
 </style>

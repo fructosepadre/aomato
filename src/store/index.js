@@ -8,10 +8,11 @@ export default new Vuex.Store({
     state:{
         lat:'12.9151677',
         long:'77.6496451',
-        zomatoApiKey:'326f2ea36d01cb28762a91cb7fb580bf',
+        zomatoApiKey:'2c69a9be8c402ad3ecca99f475b050e5',
         headerClicked:true,
         restaurants:{},
         restaurants_from_search:{},
+        searchDropdown:{},
         categories:{},
         selectedRestaurant:'',
         restaurantDetails:{}
@@ -29,6 +30,9 @@ export default new Vuex.Store({
         SET_SELECTED_RESTAURANT(state,data){
             state.selectedRestaurant=data
         },
+        SET_SEARCH_DROPDOWN(state,data){
+            state.searchDropdown=data
+        },
         SET_RESTAURANT_DETAILS(state,data){
             state.restaurantDetails=data
         }
@@ -43,10 +47,13 @@ export default new Vuex.Store({
                 }
                 })
               .then(function(response){
-                if(searchQuery.isSearchbox)
-                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)
-                else
-                    context.commit('SET_RESTAURANTS',response.data.restaurants)    
+                if(searchQuery.isSearchbox=="true"){
+                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)}
+                else if(searchQuery.isSearchbox=="dropdown"){    
+                    context.commit('SET_SEARCH_DROPDOWN',response.data.restaurants)
+                }
+                else{
+                    context.commit('SET_RESTAURANTS',response.data.restaurants)}    
             })
         },
         Categories(context){
@@ -88,7 +95,10 @@ export default new Vuex.Store({
         },
         GET_RESTAURANTS_FROM_SEARCH(state){
             return state.restaurants_from_search
-        }
+        },
+        GET_SEARCH_DROPDOWN(state){
+            return state.searchDropdown
+        },
     },
     modules: {
     }

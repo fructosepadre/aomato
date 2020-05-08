@@ -2,17 +2,19 @@
     <main>
         <div class="header">
             <div class="searchBar">
-                <div class="aomato"><h1>aomato</h1></div>
+                <div class="aomato">
+                    <h1>aomato</h1>
+                </div>
                 <br>
                 <h2>Discover the best food & drinks in Bangalore</h2>
                 <br>
                 <b-input-group>
-                    <b-input v-model="dish" v-on:keyup="getMenu" placeholder="Quarantine mei khud bana bro. Wase kya khayega?" autocomplete="off"></b-input>
+                    <b-input v-model="dish" :state=emptyBar v-on:keyup="getMenu" placeholder="Quarantine mei khud bana bro. Wase kya khayega?" autocomplete="off"></b-input>
                     <b-button @click="showResults"><b-icon-search></b-icon-search></b-button>
                 </b-input-group>
             </div>  
             <div v-if="dish.length>0" class="searchResultContainer">
-                <div v-for="(item, index) in GET_RESTAURANTS_FROM_SEARCH" :key="index" @click="showProductDetails(item.restaurant.R.res_id)">
+                <div v-for="(item, index) in GET_SEARCH_DROPDOWN" :key="index" @click="showProductDetails(item.restaurant.R.res_id)">
                     <div class="searchResults">
                         <div>                        
                             <img v-if="item.restaurant.thumb.length>0" :src="item.restaurant.thumb">
@@ -32,33 +34,37 @@
 import {mapGetters} from 'vuex'
 export default {
     computed:{
-      ...mapGetters(['GET_RESTAURANTS_FROM_SEARCH']),
-       currentRouteName() {
-        return this.$route.name;
-    }
+      ...mapGetters(['GET_SEARCH_DROPDOWN']),
     },
     data:()=>({
-        dish:''
+        dish:'',
+        emptyBar:true
     }),
     methods:{
         getMenu: function(){
-           const searchQuery={ 
+            const searchQuery={ 
             data:this.dish,
-            isSearchbox:true,
+            isSearchbox:"dropdown",
            }
            this.$store.dispatch('Restaurants',{searchQuery})
         },
         showProductDetails(data){
-            this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')})
+            this.$store.dispatch('RestaurantDetails',data)
+                .then(()=>{this.$router.push('restaurant-details')})
             this.dish=''
         },
         showResults: function(){
+            if(this.dish.length===0){
+                this.emptyBar=false;
+                return false;}
+
             const searchQuery={ 
             data:this.dish,
-            isSearchbox:false,
-           }
+            isSearchbox:"true",
+            }
             this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')})
             this.dish=''
+            this.emptyBar=true;
         }
     }
     
@@ -72,7 +78,7 @@ export default {
 }
 .header{
     background-image: url('https://b.zmtcdn.com/web_assets/81f3ff974d82520780078ba1cfbd453a1583259680.png');
-    height:60vh;
+    height:65vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -82,16 +88,17 @@ export default {
     transition: 0.8s;
 }
 .header:hover{
-    height:100vh;
+    height:90vh;
     transition: ease-out;
     transition: 1.2s;
 }
 .searchBar{
     height:80%;
     transition: 1.5s;
+    margin-bottom: 1vh;
 }
 .searchBar:hover{
-    height:60%;
+    /* height:60%; */
     transition: 1.2s;
 }
 .aomato{
@@ -119,7 +126,6 @@ h2{
     width:100vh;
     display: flex;
     flex-direction: row;
-    transition:1s;
     box-shadow: 0px 0px 1px 0px;
 }
 
