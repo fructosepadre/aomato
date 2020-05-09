@@ -33,7 +33,7 @@
             <p style="font-size: 1.5em;">Cuisines</p>
             <div class="cuisine flexrow">
               <div v-for="(item,index) in getCuisines(GET_RESTAURANT_DETAILS.cuisines)" :key="index">
-                <b-button style="border-radius:5vh; margin-right:2vh;" variant="outline-secondary">{{item}}</b-button>  
+                <div v-if="index<4"><b-button style="border-radius:5vh; margin-right:2vh;" variant="outline-secondary">{{item}}</b-button></div>  
               </div>
             </div>
             <br><br>
@@ -50,7 +50,7 @@
               <p style="font-size: 1em; color:red;">{{GET_RESTAURANT_DETAILS.phone_numbers}}</p>
               <p style="font-size: 1.5em;">Address</p>
               <p style="font-size: 1em; color:gray;">{{GET_RESTAURANT_DETAILS.location.address}}</p>
-              <b-button @click="showOnMap(GET_RESTAURANT_DETAILS.name,GET_RESTAURANT_DETAILS.location.locality_verbose)" variant="outline-secondary">See on map</b-button><br>
+              <b-button @click="showOnMap(GET_RESTAURANT_DETAILS.name,GET_RESTAURANT_DETAILS.location.locality_verbose)" variant="outline-secondary" style="color:blue">Directions</b-button><br>
             </div>
           </div>
       </div>
