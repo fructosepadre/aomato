@@ -43,13 +43,6 @@
                 <div v-if="item=='Debit Card'">{{item}}</div>
                 <div v-if="item=='Cash'">{{item}}</div>
             </div>
-            <br><br>
-            <p style=" color:gray">RECOMMENDATIONS:</p>
-         <!-- <div v-for="(item, index) in GET_RESTAURANTS" :key="index">
-                <div>{{item.restaurant.name}}</div>
-                <div>{{item.restaurant.name}}</div>
-                <div>{{item.restaurant.name}}</div>
-            </div> -->{{GET_RESTAURANTS_FROM_SEARCH}}
           </div>
           <div class="contact-card">
             <div style="padding: 3vh 3vh 3vh 3vh">
@@ -69,12 +62,12 @@ export default {
     data: ()=>({
     }),
     computed:{
-      ...mapGetters(['GET_RESTAURANT_DETAILS','GET_RESTAURANTS_FROM_SEARCH']),
+      ...mapGetters(['GET_RESTAURANT_DETAILS']),
     },
     methods:{
       showOnMap:(data,data2)=>{
         let searchTerm=data+' '+data2
-        window.open('https://www.google.com/maps/search/'+searchTerm, '_blank')
+        window.open('https://www.google.com/maps/dir//'+searchTerm, '_blank')
       },
       getCuisines: (data)=>{
         return data.split(",")

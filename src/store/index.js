@@ -8,9 +8,8 @@ export default new Vuex.Store({
     state:{
         lat:'12.9151677',
         long:'77.6496451',
-        zomatoApiKey:'2c69a9be8c402ad3ecca99f475b050e5',
+        zomatoApiKey:'d05fa7a233bacb1b0b1f3c84feae4df7',
         headerClicked:true,
-        restaurants:{},
         restaurants_from_search:{},
         searchDropdown:{},
         categories:{},
@@ -18,9 +17,6 @@ export default new Vuex.Store({
         restaurantDetails:{}
     },
     mutations:{
-        SET_RESTAURANTS(state,data){
-            state.restaurants=data
-        },
         SET_RESTAURANTS_FROM_SEARCH(state,data){
             state.restaurants_from_search=data
         },
@@ -39,6 +35,7 @@ export default new Vuex.Store({
     },
     actions:{
         Restaurants(context,{searchQuery}){
+            console.log()
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
             this.state.lat+"&lon="+this.state.long+"&count=8&q="+searchQuery.data,{
                 headers:{
@@ -47,13 +44,10 @@ export default new Vuex.Store({
                 }
                 })
               .then(function(response){
-                if(searchQuery.isSearchbox=="true"){
-                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)}
-                else if(searchQuery.isSearchbox=="dropdown"){    
-                    context.commit('SET_SEARCH_DROPDOWN',response.data.restaurants)
-                }
+                if(searchQuery.isSearchbox){
+                    context.commit('SET_SEARCH_DROPDOWN',response.data.restaurants)}
                 else{
-                    context.commit('SET_RESTAURANTS',response.data.restaurants)}    
+                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)}  
             })
         },
         Categories(context){
@@ -82,9 +76,6 @@ export default new Vuex.Store({
         }
     },
     getters:{
-        GET_RESTAURANTS(state){
-            return state.restaurants
-        },
         GET_CATEGORIES(state){
             return state.categories
         },

@@ -1,6 +1,6 @@
 <template>
     <div class="page-body">
-         <div v-for="(item, index) in getSize()>0? GET_RESTAURANTS_FROM_SEARCH:GET_RESTAURANTS" :key="index">
+         <div v-for="(item, index) in GET_RESTAURANTS_FROM_SEARCH" :key="index">
             <div class="card" @click="showProductDetails(item.restaurant.R.res_id)">
                 <div class="first"> 
                     <div style="color: crimson; font-size: 2em; flex-basis:80%">
@@ -25,7 +25,7 @@
 import {mapGetters} from 'vuex'
 export default {
     computed:{
-      ...mapGetters(['GET_RESTAURANTS','GET_RESTAURANTS_FROM_SEARCH']),
+      ...mapGetters(['GET_RESTAURANTS_FROM_SEARCH']),
     },
     methods:{
         getSize(){

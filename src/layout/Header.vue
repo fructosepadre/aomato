@@ -47,7 +47,7 @@ export default {
                 return this.showResults()
             const searchQuery={ 
             data:this.dish,
-            isSearchbox:"dropdown",
+            isSearchbox:true,
            }
            this.$store.dispatch('Restaurants',{searchQuery})
         },
@@ -60,7 +60,6 @@ export default {
         showResults: function(){
             const searchQuery={ 
             data:this.dish,
-            isSearchbox:"false",
             }
             this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
