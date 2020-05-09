@@ -28,7 +28,7 @@
       <div class="more-info flexrow">
           <div class="info-body">
             <p style="font-size: 1.5em;">Menu</p>
-            <img>
+            <img class="menu">
             <br><br><br>
             <p style="font-size: 1.5em;">Cuisines</p>
             <div class="cuisine flexrow">
@@ -43,14 +43,25 @@
                 <div v-if="item=='Debit Card'">{{item}}</div>
                 <div v-if="item=='Cash'">{{item}}</div>
             </div>
+            <br><br>
+            <p v-if="GET_RECOMMENDATION.length>1" style="color:gray">RECOMMENDATIONS:</p>
+            <div class="recco" v-for="(item, index) in GET_RECOMMENDATION" :key="index">
+              <div class="recco-Card" v-if="index<3 && item.restaurant.name!=GET_RESTAURANT_DETAILS.name" @click="showProductDetails(item.restaurant.R.res_id)"> 
+                    <img v-if="item.restaurant.thumb.length>0" :src="item.restaurant.thumb">
+                    <img v-else src='https://i.ibb.co/sbkYD3d/64dffaa58ffa55a377cdf42b6a690e721585809275.png'>
+                    <h style="font-size: 1.5em;">{{item.restaurant.name}}</h>
+                    <p style="font-size: 1em; color:gray;">{{slicing(item.restaurant.cuisines)}}</p>       
+              </div><br>
+            </div>
           </div>
           <div class="contact-card">
             <div style="padding: 3vh 3vh 3vh 3vh">
+              <b-button @click="showOnMap(GET_RESTAURANT_DETAILS.name,GET_RESTAURANT_DETAILS.location.locality_verbose)" variant="outline-secondary" style="color:blue">Directions</b-button><br>
+              <br>
               <p style="font-size: 1.5em;">Call</p>
               <p style="font-size: 1em; color:red;">{{GET_RESTAURANT_DETAILS.phone_numbers}}</p>
               <p style="font-size: 1.5em;">Address</p>
               <p style="font-size: 1em; color:gray;">{{GET_RESTAURANT_DETAILS.location.address}}</p>
-              <b-button @click="showOnMap(GET_RESTAURANT_DETAILS.name,GET_RESTAURANT_DETAILS.location.locality_verbose)" variant="outline-secondary" style="color:blue">Directions</b-button><br>
             </div>
           </div>
       </div>
@@ -62,15 +73,26 @@ export default {
     data: ()=>({
     }),
     computed:{
-      ...mapGetters(['GET_RESTAURANT_DETAILS']),
+      ...mapGetters(['GET_RESTAURANT_DETAILS','GET_RECOMMENDATION']),
     },
     methods:{
       showOnMap:(data,data2)=>{
         let searchTerm=data+' '+data2
         window.open('https://www.google.com/maps/dir//'+searchTerm, '_blank')
       },
-      getCuisines: (data)=>{
+      getCuisines(data){
         return data.split(",")
+      },
+      showProductDetails(data){
+        this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')
+        this.$store.commit('SET_SEARCH_DROPDOWN',{})})
+      },
+      slicing(data){
+            let data_to_splice=data
+            if(data_to_splice.length<33)
+                return data_to_splice
+            else
+                return data_to_splice.slice(0,32)+".."
       }
     }
 }
@@ -109,19 +131,31 @@ export default {
   height: 50vh; 
   position: sticky; 
   top: 30vh;
-  box-shadow: 0vh 0vh 1vh 0vh rgba(0,0,0,0.4);
+  box-shadow: 0vh 0vh 1vh 0vh rgba(189, 162, 162, 0.4);
   border-radius: 2vh;
+}
+.recco-Card{
+    border-radius: 2vh;
+    width: 60vh;
+    height: 40vh;
+    img{
+      box-shadow: 0vh 0vh 1vh 0vh rgba(189, 162, 162, 0.4);
+      border-radius: 2vh;
+      height: 30vh;
+      width: 100%;
+    }
 }
 .info-body{
   flex-basis:60%;
-  height: 200vh;
-  img{
+}
+.menu{
+    // img{
     content: url('https://b.zmtcdn.com/data/menus/937/19028937/25ec01119c40e1e90c0a688e7c8b65ba.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A');
   }
-  img:hover{
+  .menu:hover{
     transform: scale(1.1);
   }
-}
+
 .main-image{
   flex-basis:60%;
   img{

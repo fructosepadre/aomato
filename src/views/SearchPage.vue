@@ -34,7 +34,6 @@ export default {
         showProductDetails(data){
             this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})})
-            this.dish=''
         },
         slicing(data){
             let data_to_splice=data

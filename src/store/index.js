@@ -9,12 +9,12 @@ export default new Vuex.Store({
         lat:'12.9151677',
         long:'77.6496451',
         zomatoApiKey:'d05fa7a233bacb1b0b1f3c84feae4df7',
-        headerClicked:true,
         restaurants_from_search:{},
         searchDropdown:{},
         categories:{},
         selectedRestaurant:'',
-        restaurantDetails:{}
+        restaurantDetails:{},
+        reccomendation:{}
     },
     mutations:{
         SET_RESTAURANTS_FROM_SEARCH(state,data){
@@ -31,11 +31,13 @@ export default new Vuex.Store({
         },
         SET_RESTAURANT_DETAILS(state,data){
             state.restaurantDetails=data
-        }
+        },
+        SET_RECOMMENDATION(state,data){
+            state.reccomendation=data
+        },        
     },
     actions:{
         Restaurants(context,{searchQuery}){
-            console.log()
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
             this.state.lat+"&lon="+this.state.long+"&count=8&q="+searchQuery.data,{
                 headers:{
@@ -45,9 +47,12 @@ export default new Vuex.Store({
                 })
               .then(function(response){
                 if(searchQuery.isSearchbox){
-                    context.commit('SET_SEARCH_DROPDOWN',response.data.restaurants)}
+                    context.commit('SET_SEARCH_DROPDOWN',response.data.restaurants)
+                }
                 else{
-                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)}  
+                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)
+                }
+                context.commit('SET_RECOMMENDATION',response.data.restaurants) 
             })
         },
         Categories(context){
@@ -62,7 +67,6 @@ export default new Vuex.Store({
             })
         },
         async RestaurantDetails(context,data){
-            // context.commit('SET_SELECTED_RESTAURANT',data)
             return Axios.get('https://developers.zomato.com/api/v2.1/restaurant?res_id='+data,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
@@ -90,6 +94,9 @@ export default new Vuex.Store({
         },
         GET_SEARCH_DROPDOWN(state){
             return state.searchDropdown
+        },
+        GET_RECOMMENDATION(state){
+            return state.reccomendation
         },
     },
     modules: {
