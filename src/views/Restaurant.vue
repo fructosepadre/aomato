@@ -43,14 +43,21 @@
                 <div v-if="item=='Debit Card'">{{item}}</div>
                 <div v-if="item=='Cash'">{{item}}</div>
             </div>
+            <br><br>
+            <p style=" color:gray">RECOMMENDATIONS:</p>
+         <!-- <div v-for="(item, index) in GET_RESTAURANTS" :key="index">
+                <div>{{item.restaurant.name}}</div>
+                <div>{{item.restaurant.name}}</div>
+                <div>{{item.restaurant.name}}</div>
+            </div> -->{{GET_RESTAURANTS_FROM_SEARCH}}
           </div>
           <div class="contact-card">
             <div style="padding: 3vh 3vh 3vh 3vh">
               <p style="font-size: 1.5em;">Call</p>
-              <p style="font-size: 1em; color:red;">{{GET_RESTAURANT_DETAILS.phone_numbers}}</p><br>
+              <p style="font-size: 1em; color:red;">{{GET_RESTAURANT_DETAILS.phone_numbers}}</p>
               <p style="font-size: 1.5em;">Address</p>
-              <p style="font-size: 1em; color:gray;">{{GET_RESTAURANT_DETAILS.location.address}}</p><br>
-              <b-button @click="showOnMap" variant="outline-secondary">See on map</b-button><br>
+              <p style="font-size: 1em; color:gray;">{{GET_RESTAURANT_DETAILS.location.address}}</p>
+              <b-button @click="showOnMap(GET_RESTAURANT_DETAILS.name,GET_RESTAURANT_DETAILS.location.locality_verbose)" variant="outline-secondary">See on map</b-button><br>
             </div>
           </div>
       </div>
@@ -62,11 +69,12 @@ export default {
     data: ()=>({
     }),
     computed:{
-      ...mapGetters(['GET_RESTAURANT_DETAILS']),
+      ...mapGetters(['GET_RESTAURANT_DETAILS','GET_RESTAURANTS_FROM_SEARCH']),
     },
     methods:{
-      showOnMap:()=>{
-        window.open('https://www.google.com/maps/search/', '_blank')
+      showOnMap:(data,data2)=>{
+        let searchTerm=data+' '+data2
+        window.open('https://www.google.com/maps/search/'+searchTerm, '_blank')
       },
       getCuisines: (data)=>{
         return data.split(",")

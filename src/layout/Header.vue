@@ -10,7 +10,7 @@
                 <br>
                 <b-input-group>
                     <b-input v-model="dish" v-on:keyup="getMenu" placeholder="Quarantine mei khud bana bro. Wase kya khayega?" autocomplete="off"></b-input>
-                    <b-button @click="showResults"><b-icon-search></b-icon-search></b-button>
+                    <b-button v-if="dish.length!=0" @click="showResults"><b-icon-search></b-icon-search></b-button>
                 </b-input-group>
             </div>  
             <div class="searchResultContainer">
@@ -60,7 +60,7 @@ export default {
         showResults: function(){
             const searchQuery={ 
             data:this.dish,
-            isSearchbox:"true",
+            isSearchbox:"false",
             }
             this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
