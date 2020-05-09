@@ -1,4 +1,6 @@
 <template>
+<div class="bodz" style="display:flex; flex-direction:row">
+    <Sidebar/>
     <div class="page-body">
          <div v-for="(item, index) in GET_RESTAURANTS_FROM_SEARCH" :key="index">
             <div class="card" @click="showProductDetails(item.restaurant.R.res_id)">
@@ -20,10 +22,15 @@
             </div>
         </div>
     </div>
+ </div>   
 </template>
 <script>
 import {mapGetters} from 'vuex'
+import Sidebar from '@/layout/Sidebar.vue'
 export default {
+      components: {
+    Sidebar
+  },
     computed:{
       ...mapGetters(['GET_RESTAURANTS_FROM_SEARCH']),
     },
@@ -48,16 +55,18 @@ export default {
 <style scoped>
 .page-body{
     margin-top: 10vh;
-    margin-left: 10vh;
+    margin-left: 2vh;
     margin-right: 10vh;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    flex-basis: 75%;
+    justify-content: space-evenly;
+    background-color: ivory;
 }
 .card{
     width: 80vh;
     height: 35vh;
-    margin-bottom: 10vh;
+    margin-bottom: 5vh;
     transition:1s;
     display: flex;
     flex-direction: row;

@@ -1,5 +1,5 @@
 <template>
-    <div class="page-body flexcolumn">                   
+    <div class="page-body">                   
       <div class="imageCard flexrow">
           <div class="main-image">
             <img>
@@ -98,10 +98,6 @@ export default {
 }
 </script>
 <style lang="scss">
-.flexcolumn{
-  display: flex;
-  flex-direction: column;
-}
 .flexrow{
     display: flex;
     flex-direction: row;
@@ -116,7 +112,7 @@ export default {
     height: 90%;
 }
 .restaurant-info{
-  background-color: white;
+    background-color: ivory;
   padding: 0vh 3vh 2vh 4vh;
   height: 30vh;
   position: sticky; 
@@ -149,7 +145,6 @@ export default {
   flex-basis:60%;
 }
 .menu{
-    // img{
     content: url('https://b.zmtcdn.com/data/menus/937/19028937/25ec01119c40e1e90c0a688e7c8b65ba.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A');
   }
   .menu:hover{
@@ -172,11 +167,5 @@ export default {
       width: 45%;
       content: url('https://b.zmtcdn.com/data/pictures/chains/7/19028937/2802b25da35e0b646095d4fcd785bf0a.jpg?output-format=webp');
     }
-}
-img{
-   transition: 1s; 
-}
-img:hover{
-    filter: brightness(1.1);
 }
 </style>
