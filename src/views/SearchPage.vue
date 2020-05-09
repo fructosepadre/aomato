@@ -69,7 +69,6 @@ export default {
     font-weight: bold;
     display: flex;
     flex-direction: column;
-
 }
 img{
     height:100%;

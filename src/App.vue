@@ -1,6 +1,7 @@
 <template>
       <div id="app">
             <Header/>
+            <br>
           <router-view/>
       </div>
 </template>
@@ -22,6 +23,6 @@ export default {
 <style>
 #app {
   text-align: center;
-  background-color: #f1f5f7;
+  background-color: white;
 }
 </style>

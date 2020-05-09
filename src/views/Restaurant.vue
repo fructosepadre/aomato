@@ -1,16 +1,6 @@
 <template>
-    <div class="page-body">
-      <!-- {{GET_RESTAURANT_DETAILS.name}}<br>
-      {{GET_RESTAURANT_DETAILS.location}}<br>
-      {{GET_RESTAURANT_DETAILS.cuisines}}<br>
-      {{GET_RESTAURANT_DETAILS.timings}}<br>
-      {{GET_RESTAURANT_DETAILS.average_cost_for_two}}<br>
-      {{GET_RESTAURANT_DETAILS.highlights}}<br>
-      {{GET_RESTAURANT_DETAILS.user_rating}}<br>
-      {{GET_RESTAURANT_DETAILS.phone_numbers}}<br>              
-      {{GET_RESTAURANT_DETAILS.establishment}}<br>              
-      {{GET_RESTAURANT_DETAILS.has_online_delivery}}<br> -->            
-      <div class="imageCard">
+    <div class="page-body flexcolumn">                   
+      <div class="imageCard flexrow">
           <div class="main-image">
             <img>
           </div>
@@ -18,68 +8,118 @@
             <img><img><img><img>
           </div>
       </div>
-      <div class="restaurant-info">
+      <br>
+      <div class="restaurant-info flexrow">
         <div class="restaurant" style="flex-basis:90%; text-align:left;">
-            <div style="font-size: 2em;">{{this.name}}<br></div>
-            <div style="font-size: 1em;">{{this.cuisines}}<br></div>
-            <div style="font-size: 1em; color:grey;">{{this.location.locality}}<br><br></div>
-            {{this.timings}}<br>
-            <div style="font-size: 1em; color:crimson;"><b>Average cost for 2 : Rs. {{average_cost_for_two}}</b><br></div>
+            <div style="font-size: 2em;">{{GET_RESTAURANT_DETAILS.name}}<br></div>
+            <div style="font-size: 1em;">{{GET_RESTAURANT_DETAILS.cuisines}}<br></div>
+            <div style="font-size: 1em; color:grey;">{{GET_RESTAURANT_DETAILS.location.locality}}<br><br></div>
+            {{GET_RESTAURANT_DETAILS.timings}}<br>
+            <div style="font-size: 1em; color:crimson;"><b>Average cost for 2 : Rs. {{GET_RESTAURANT_DETAILS.average_cost_for_two}}</b><br></div>
         </div>
         <div class="rating" style="flex-basis:10%; text-align:center; border-radius:2vh; background-color:rgb(79, 223, 35);">
+          <br>
           User Rating<hr>
-          {{this.user_rating.aggregate_rating}}<hr>
-          {{this.user_rating.votes}} votes
+          {{GET_RESTAURANT_DETAILS.user_rating.aggregate_rating}}<hr>
+          {{GET_RESTAURANT_DETAILS.user_rating.votes}} votes
         </div>
-    </div>
       </div>
+      <br>
+      <div class="more-info flexrow">
+          <div class="info-body">
+            <p style="font-size: 1.5em;">Menu</p>
+            <img>
+            <br><br><br>
+            <p style="font-size: 1.5em;">Cuisines</p>
+            <div class="cuisine flexrow">
+              <div v-for="(item,index) in getCuisines(GET_RESTAURANT_DETAILS.cuisines)" :key="index">
+                <b-button style="border-radius:5vh; margin-right:2vh;" variant="outline-secondary">{{item}}</b-button>  
+              </div>
+            </div>
+            <br><br>
+            <p style="font-size: 1.5em;">Payment Methods:</p>
+            <div v-for="(item,index) in GET_RESTAURANT_DETAILS.highlights" :key="index">
+                <div v-if="item=='Credit Card'">{{item}}</div>
+                <div v-if="item=='Debit Card'">{{item}}</div>
+                <div v-if="item=='Cash'">{{item}}</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div style="padding: 3vh 3vh 3vh 3vh">
+              <p style="font-size: 1.5em;">Call</p>
+              <p style="font-size: 1em; color:red;">{{GET_RESTAURANT_DETAILS.phone_numbers}}</p><br>
+              <p style="font-size: 1.5em;">Address</p>
+              <p style="font-size: 1em; color:gray;">{{GET_RESTAURANT_DETAILS.location.address}}</p><br>
+              <b-button @click="showOnMap" variant="outline-secondary">See on map</b-button><br>
+            </div>
+          </div>
+      </div>
+    </div>
 </template>
 <script>
-// import {mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
     data: ()=>({
-      name:'MOJO Pizza - 2X Toppings',
-      location:{ "address": "120/4, Harlur Main Road, HSR, Bangalore", "locality": "HSR", "city": "Bangalore", "city_id": 4, "latitude": "12.8988477602", "longitude": "77.6584519073", "zipcode": "", "country_id": 1, "locality_verbose": "HSR, Bangalore" },
-      cuisines:'Pizza, Fast Food, Desserts',
-      timings:'11am – 1am (Mon-Sun)',
-      average_cost_for_two:'600',
-      highlights:[ "No Seating Available", "Dinner", "Delivery", "Credit Card", "Lunch", "Cash", "Takeaway Available", "Debit Card", "Bulk Orders Accepted", "Digital Payments Accepted" ],
-      user_rating:{ "aggregate_rating": "4.0", "rating_text": "Very Good", "rating_color": "5BA829", "rating_obj": { "title": { "text": "4.0" }, "bg_color": { "type": "lime", "tint": "600" } }, "votes": "59" },
-      phone_numbers:'022 33252828',
-      establishment:[],
-      has_online_delivery:'1'
     }),
     computed:{
-      // ...mapGetters(['GET_RESTAURANT_DETAILS']),
+      ...mapGetters(['GET_RESTAURANT_DETAILS']),
     },
     methods:{
+      showOnMap:()=>{
+        window.open('https://www.google.com/maps/search/', '_blank')
+      },
+      getCuisines: (data)=>{
+        return data.split(",")
+      }
     }
 }
 </script>
 <style lang="scss">
-.page-body{
+.flexcolumn{
   display: flex;
   flex-direction: column;
+}
+.flexrow{
+    display: flex;
+    flex-direction: row;
+}
+.page-body{
   justify-content:space-around;
-  padding-left: 10vh;
-  padding-right: 10vh;
+  padding: 0vh 20vh 0vh 20vh;
   background-color: white;
 }
 .imageCard{
-    padding-top: 10vh;
-    padding-bottom:5vh;
+    padding: 10vh 0vh 5vh 0vh;
     height: 90%;
-    display: flex;
-    flex-direction: row;
-    border-radius: 2vh;
 }
 .restaurant-info{
-  margin-left: 5vh;
-  margin-right: 5vh;
+  background-color: white;
+  padding: 0vh 3vh 2vh 4vh;
   height: 30vh;
-  display: flex;
-  flex-direction: row;
+  position: sticky; 
+  top: 0vh;
+}
+.more-info{
+ padding: 0vh 3vh 2vh 4vh;
+ text-align:left
+}
+.contact-card{
+  flex-basis:40%; 
+  height: 50vh; 
+  position: sticky; 
+  top: 30vh;
+  box-shadow: 0vh 0vh 1vh 0vh rgba(0,0,0,0.4);
   border-radius: 2vh;
+}
+.info-body{
+  flex-basis:60%;
+  height: 200vh;
+  img{
+    content: url('https://b.zmtcdn.com/data/menus/937/19028937/25ec01119c40e1e90c0a688e7c8b65ba.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A');
+  }
+  img:hover{
+    transform: scale(1.1);
+  }
 }
 .main-image{
   flex-basis:60%;
@@ -102,6 +142,6 @@ img{
    transition: 1s; 
 }
 img:hover{
-    filter: brightness(1.2);
+    filter: brightness(1.1);
 }
 </style>
