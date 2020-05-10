@@ -3,7 +3,7 @@
         <p>{{facet}}</p>
         <div class="filter_list">
             <b-form-radio-group 
-                v-model="checkedCuisine"
+                v-model="checkedFacet"
                 :options="options"
                 value-field="id" 
                 text-field="value"
@@ -21,19 +21,26 @@ export default {
         facet: String,
         options: Array,
     },
+    mounted(){
+        if(this.facet=='Cuisine'){
+             return this.checkedFacet=localStorage.getItem("Cuisine")}
+        else if(this.facet=='Distance'){
+             return this.checkedFacet=localStorage.getItem("Distance")}
+        else if(this.facet=='Categories'){ 
+            return this.checkedFacet=localStorage.getItem("Categories")}
+    },
     data:()=>({
-        checkedCuisine: localStorage.getItem("Cuisine")
+        checkedFacet:'',
     }),
     methods:{
         enable(facet){
-            localStorage.setItem(facet,this.checkedCategories)
-            this.$store.dispatch('RestaurantsFromFacets')    
+            localStorage.setItem(facet,this.checkedFacet)
+            this.$store.dispatch('RestaurantsFromFacets') 
         },
         refresh(){
-            this.checkedCategories=''
+            this.checkedFacet=''
             this.$store.dispatch('RestaurantsFromFacets')
-
-        }
+        },
     }
 }
 </script>
