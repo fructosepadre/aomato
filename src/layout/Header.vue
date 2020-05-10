@@ -1,6 +1,10 @@
 <template>
     <main>
         <div class="header">
+            <b-button @click="navigateToHome()" :hidden=farFromHome style="background-color:red;">
+                <b-icon icon="house-fill"></b-icon>
+                Home
+            </b-button>
             <div class="searchBar">
                 <div class="aomato">
                     <h1>aomato</h1>
@@ -35,6 +39,10 @@ import {mapGetters} from 'vuex'
 export default {
     computed:{
       ...mapGetters(['GET_SEARCH_DROPDOWN']),
+      farFromHome(){
+          return this.$route.name=="home"
+      }
+      
     },
     data:()=>({
         dish:'',
@@ -65,6 +73,9 @@ export default {
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
             })
             this.dish=''
+        },
+        navigateToHome: function(){
+            this.$router.push('/home')
         }
     }
     

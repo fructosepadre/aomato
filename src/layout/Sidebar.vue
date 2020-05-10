@@ -3,18 +3,32 @@
         <div class="sidebar-content">
             <p style="font-size: 1.5em;">Filters</p>
             <hr>
-            <div class="content-facet">Cuisine</div>
-            <hr>
-            <div class="content-facet">Cost</div>
-            <hr>
-            <div class="content-facet">Distance</div>
-            <hr>
+             <SidebarContent facet="Cuisine" :options="cuisines"/>
+             <SidebarContent facet="Distance" :options="distance"/>
+             <!-- <SidebarContent facet="Distance" content="North Indian,Buryani" />             -->
         </div>
     </div>    
 </template>
 <script>
+import SidebarContent from '@/layout/SidebarContent.vue'
 export default {
-    
+    components: {
+        SidebarContent
+    },
+    data: ()=>({ 
+       distance: [
+          { id: '1', value: 'Upto 1 km'},
+          { id: '5', value: 'Upto 5 km'},
+          { id: '7', value: 'Upto 7 km'},
+        ],
+       cuisines: [
+          { id: '25', value: 'Chinese'},
+          { id: '7', value: 'Biryani'},
+          { id: '50', value: 'North Indian'},
+        ]
+    }),
+    methods:{
+    }
 }
 </script>
 <style>
@@ -32,6 +46,7 @@ export default {
 .sidebar-content{
     margin: 2vh 2vh 2vh 2vh;
 }
+/*
 .content-facet{
     color: black;
     text-align: left;
@@ -40,5 +55,5 @@ export default {
 .filter_list{
     font-size: 1em;
     color: gray;
-}
+} */
 </style>

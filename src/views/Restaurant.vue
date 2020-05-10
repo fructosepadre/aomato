@@ -70,8 +70,6 @@
 <script>
 import {mapGetters} from 'vuex'
 export default {
-    data: ()=>({
-    }),
     computed:{
       ...mapGetters(['GET_RESTAURANT_DETAILS','GET_RECOMMENDATION']),
     },
