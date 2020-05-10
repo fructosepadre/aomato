@@ -23,10 +23,8 @@ export default {
     },
     methods:{
         showDetailsInSearch(searchData){
-            const searchQuery={ 
-            data:searchData,
-            }
-            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.replace('/search')
+            localStorage.setItem('searchQuery',searchData)
+            this.$store.dispatch('Restaurants').then(()=>{this.$router.replace('/search')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})})
         }
     }

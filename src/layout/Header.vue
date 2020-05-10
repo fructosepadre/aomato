@@ -53,23 +53,19 @@ export default {
                 return this.$store.commit('SET_SEARCH_DROPDOWN',{})
             if(event.key== "Enter")
                 return this.showResults()
-            const searchQuery={ 
-            data:this.dish,
-            isSearchbox:true,
-           }
-           this.$store.dispatch('Restaurants',{searchQuery})
+
+           this.$store.dispatch('RestaurantInDropDrown',this.dish)
         },
         showProductDetails(data){
-            this.$store.dispatch('RestaurantDetails',data)
-                .then(()=>{this.$router.push('restaurant-details')})
+            localStorage.setItem('res_id',data)
+            this.$store.dispatch('RestaurantDetails')
+                .then(()=>{this.$router.push('/restaurant-details')})
             this.dish=''
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
         },
         showResults: function(){
-            const searchQuery={ 
-            data:this.dish,
-            }
-            this.$store.dispatch('Restaurants',{searchQuery}).then(()=>{this.$router.push('/search')
+            localStorage.setItem('searchQuery',this.dish)
+            this.$store.dispatch('Restaurants').then(()=>{this.$router.push('/search')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
             })
             this.dish=''

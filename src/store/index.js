@@ -37,21 +37,30 @@ export default new Vuex.Store({
         },        
     },
     actions:{
-        Restaurants(context,{searchQuery}){
+        RestaurantInDropDrown(context,data){
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
-            this.state.lat+"&lon="+this.state.long+"&count=8&q="+searchQuery.data,{
+            this.state.lat+"&lon="+this.state.long+"&count=8&q="+data,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
                     "content-type": "application/json"
                 }
                 })
               .then(function(response){
-                if(searchQuery.isSearchbox){
-                    context.commit('SET_SEARCH_DROPDOWN',response.data.restaurants)
+                context.commit('SET_SEARCH_DROPDOWN',response.data.restaurants)
+                context.commit('SET_RECOMMENDATION',response.data.restaurants) 
+            })
+        },
+        Restaurants(context){
+            let query=localStorage.getItem('searchQuery',this.dish)
+            return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
+            this.state.lat+"&lon="+this.state.long+"&count=8&q="+query,{
+                headers:{
+                    "user-key":this.state.zomatoApiKey,
+                    "content-type": "application/json"
                 }
-                else{
-                    context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)
-                }
+                })
+              .then(function(response){
+                context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)
                 context.commit('SET_RECOMMENDATION',response.data.restaurants) 
             })
         },
@@ -66,8 +75,9 @@ export default new Vuex.Store({
                     context.commit('SET_CATEGORIES',response.data.categories)    
             })
         },
-        async RestaurantDetails(context,data){
-            return Axios.get('https://developers.zomato.com/api/v2.1/restaurant?res_id='+data,{
+        async RestaurantDetails(context){
+            let res_id=localStorage.getItem('res_id')        
+            return Axios.get('https://developers.zomato.com/api/v2.1/restaurant?res_id='+res_id,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
                     "content-type": "application/json"

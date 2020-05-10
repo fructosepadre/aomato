@@ -73,6 +73,9 @@ export default {
     computed:{
       ...mapGetters(['GET_RESTAURANT_DETAILS','GET_RECOMMENDATION']),
     },
+    mounted(){
+        this.$store.dispatch('RestaurantDetails')
+    },
     methods:{
       showOnMap:(data,data2)=>{
         let searchTerm=data+' '+data2
@@ -82,7 +85,8 @@ export default {
         return data.split(",")
       },
       showProductDetails(data){
-        this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')
+        localStorage.setItem('res_id',data)        
+        this.$store.dispatch('RestaurantDetails').then(()=>{this.$router.replace('/restaurant-details')
         this.$store.commit('SET_SEARCH_DROPDOWN',{})})
       },
       slicing(data){

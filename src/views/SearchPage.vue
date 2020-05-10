@@ -32,14 +32,18 @@ export default {
     Sidebar
   },
     computed:{
-      ...mapGetters(['GET_RESTAURANTS_FROM_SEARCH']),
+      ...mapGetters(['GET_RESTAURANTS_FROM_SEARCH','GET_RESTAURANTS_FROM_SEARCH']),
+    },
+    mounted(){
+        this.$store.dispatch('Restaurants')
     },
     methods:{
         getSize(){
             return this.$store.getters.GET_RESTAURANTS_FROM_SEARCH.length;
         },
         showProductDetails(data){
-            this.$store.dispatch('RestaurantDetails',data).then(()=>{this.$router.push('/restaurant-details')
+            localStorage.setItem('res_id',data)            
+            this.$store.dispatch('RestaurantDetails').then(()=>{this.$router.push('/restaurant-details')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})})
         },
         slicing(data){
