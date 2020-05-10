@@ -54,7 +54,7 @@ export default {
             if(event.key== "Enter")
                 return this.showResults()
 
-           this.$store.dispatch('RestaurantInDropDrown',this.dish)
+           this.$store.dispatch('RestaurantsInDropDrown',this.dish)
         },
         showProductDetails(data){
             localStorage.setItem('res_id',data)

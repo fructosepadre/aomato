@@ -3,11 +3,11 @@
         <p>{{facet}}</p>
         <div class="filter_list">
             <b-form-radio-group 
-                v-model="checkedCategories"
+                v-model="checkedCuisine"
                 :options="options"
                 value-field="id" 
                 text-field="value"
-                @input="show(facet)">
+                @input="enable(facet)">
             </b-form-radio-group>
         </div>
         <button type="button" class="btn btn-link" @click="refresh">Remove filter</button>
@@ -22,14 +22,17 @@ export default {
         options: Array,
     },
     data:()=>({
-        checkedCategories:''
+        checkedCuisine: localStorage.getItem("Cuisine")
     }),
     methods:{
-        show(facet){
-            console.log(facet,this.checkedCategories)
+        enable(facet){
+            localStorage.setItem(facet,this.checkedCategories)
+            this.$store.dispatch('RestaurantsFromFacets')    
         },
         refresh(){
             this.checkedCategories=''
+            this.$store.dispatch('RestaurantsFromFacets')
+
         }
     }
 }
@@ -38,7 +41,7 @@ export default {
 .content-facet{
     color: black;
     text-align: left;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 .filter_list{
     font-size: 1em;

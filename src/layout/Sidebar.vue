@@ -5,7 +5,7 @@
             <hr>
              <SidebarContent facet="Cuisine" :options="cuisines"/>
              <SidebarContent facet="Distance" :options="distance"/>
-             <!-- <SidebarContent facet="Distance" content="North Indian,Buryani" />             -->
+             <SidebarContent facet="Categories" :options="categories" />            
         </div>
     </div>    
 </template>
@@ -17,14 +17,19 @@ export default {
     },
     data: ()=>({ 
        distance: [
-          { id: '1', value: 'Upto 1 km'},
-          { id: '5', value: 'Upto 5 km'},
-          { id: '7', value: 'Upto 7 km'},
+          { id: '200', value: 'Upto 200m'},
+          { id: '500', value: 'Upto 500m'},
+          { id: '700', value: 'Upto 700m'},
         ],
        cuisines: [
           { id: '25', value: 'Chinese'},
           { id: '7', value: 'Biryani'},
           { id: '50', value: 'North Indian'},
+        ],
+        categories: [
+          { id: '21', value: 'Quick Bites'},
+          { id: '31', value: 'Bakery'},
+          { id: '23', value: 'Dessert Parlour'},
         ]
     }),
     methods:{
@@ -37,7 +42,7 @@ export default {
     margin-left: 5vh;
     border-radius: 2vh;
     flex-basis: 15%;
-    height:50vw; 
+    height:100vh; 
     box-shadow: 0vh 0vh 1vh 0vh rgba(189, 162, 162, 0.4);
     position: sticky;
     top:0vh;
@@ -46,14 +51,4 @@ export default {
 .sidebar-content{
     margin: 2vh 2vh 2vh 2vh;
 }
-/*
-.content-facet{
-    color: black;
-    text-align: left;
-    font-size: 1.2em;
-}
-.filter_list{
-    font-size: 1em;
-    color: gray;
-} */
 </style>

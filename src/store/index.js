@@ -37,7 +37,24 @@ export default new Vuex.Store({
         },        
     },
     actions:{
-        RestaurantInDropDrown(context,data){
+        RestaurantsFromFacets(context){
+            let query=localStorage.getItem('searchQuery')
+            let distance=localStorage.getItem('Distance')
+            let cuisine=localStorage.getItem('Cuisine')
+            let category=localStorage.getItem('Categories')
+            return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
+            this.state.lat+"&lon="+this.state.long+"&count=10&q="+query+"&radius="+distance+"&cuisines="+cuisine+"&establishment_type="+category,{
+                headers:{
+                    "user-key":this.state.zomatoApiKey,
+                    "content-type": "application/json"
+                }
+                })
+              .then(function(response){
+                context.commit('SET_RESTAURANTS_FROM_SEARCH',response.data.restaurants)
+                context.commit('SET_RECOMMENDATION',response.data.restaurants) 
+            })
+        },
+        RestaurantsInDropDrown(context,data){
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
             this.state.lat+"&lon="+this.state.long+"&count=8&q="+data,{
                 headers:{
@@ -51,9 +68,9 @@ export default new Vuex.Store({
             })
         },
         Restaurants(context){
-            let query=localStorage.getItem('searchQuery',this.dish)
+            let query=localStorage.getItem('searchQuery')
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
-            this.state.lat+"&lon="+this.state.long+"&count=8&q="+query,{
+            this.state.lat+"&lon="+this.state.long+"&count=10&q="+query,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
                     "content-type": "application/json"
@@ -84,7 +101,6 @@ export default new Vuex.Store({
                 }
                 })
               .then(function(response){
-                  console.log(response.data)
                     context.commit('SET_RESTAURANT_DETAILS',response.data)    
             })
         }

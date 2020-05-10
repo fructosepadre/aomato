@@ -33,7 +33,7 @@
             <p style="font-size: 1.5em;">Cuisines</p>
             <div class="cuisine flexrow">
               <div v-for="(item,index) in getCuisines(GET_RESTAURANT_DETAILS.cuisines)" :key="index">
-                <div v-if="index<4"><b-button style="border-radius:5vh; margin-right:2vh;" variant="outline-secondary">{{item}}</b-button></div>  
+                <div v-if="index<4"><b-button style="border-radius:5vh; margin-right:2vh;" variant="outline-secondary" @click="searchByCuisine(item)">{{item}}</b-button></div>  
               </div>
             </div>
             <br><br>
@@ -95,6 +95,11 @@ export default {
                 return data_to_splice
             else
                 return data_to_splice.slice(0,32)+".."
+      },
+      searchByCuisine(searchData){
+        localStorage.setItem('searchQuery',searchData)
+        localStorage.setItem("Cuisine",null)
+        this.$store.dispatch('RestaurantsFromFacets').then(()=>{this.$router.replace('/search')})
       }
     }
 }
