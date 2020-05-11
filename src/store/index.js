@@ -92,7 +92,7 @@ export default new Vuex.Store({
                     context.commit('SET_CATEGORIES',response.data.categories)    
             })
         },
-        async RestaurantDetails(context){
+        RestaurantDetails(context){
             let res_id=localStorage.getItem('res_id')        
             return Axios.get('https://developers.zomato.com/api/v2.1/restaurant?res_id='+res_id,{
                 headers:{
