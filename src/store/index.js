@@ -42,17 +42,18 @@ export default new Vuex.Store({
             const RATING_SORT=this.checkedFacet=localStorage.getItem("Rating")
             let URL='https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
                 this.state.lat+"&lon="+this.state.long+"&count=10&q="+QUERY+"&"
-            if(DISTANCE){
+            if(DISTANCE.length>0){
                 URL+="radius="+DISTANCE+"&"}
-            if(CUISINE){
+            if(CUISINE.length>0){
                 URL+="cuisines="+CUISINE+"&"}
-            if(CATEGORY)
+            if(CATEGORY.length>0)
                 URL+="establishment_type="+CATEGORY+"&"
-            if(COST_SORT)
+            if(COST_SORT.length>0)
                 URL+="sort=cost&order="+COST_SORT+"&"
-            if(RATING_SORT)
+            if(RATING_SORT.length>0)
                 URL+="sort=rating&order="+RATING_SORT+"&"
-            URL=URL.slice(0,-1)    
+            URL=URL.slice(0,-1)  
+            console.log(URL)  
             return Axios.get(URL,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,

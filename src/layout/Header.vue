@@ -62,16 +62,24 @@ export default {
                 .then(()=>{this.$router.push('/restaurant-details')})
             this.dish=''
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
+            this.setFacets()
         },
         showResults: function(){
             localStorage.setItem('searchQuery',this.dish)
             this.$store.dispatch('restaurants').then(()=>{this.$router.push('/search')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
             })
+            this.setFacets()
             this.dish=''
+            this.$router.go(0)
         },
         navigateToHome: function(){
             this.$router.push('/home')
+        },
+        setFacets: function(){
+            localStorage.setItem("Cuisine",'')
+            localStorage.setItem("Distance",'')
+            localStorage.setItem("Categories",'')
         }
     }
     
