@@ -49,7 +49,7 @@
               <div class="recco-Card" v-if="index<3 && item.restaurant.name!=getRestaurantDetails.name" @click="showProductDetails(item.restaurant.R.res_id)"> 
                     <img v-if="item.restaurant.thumb.length>0" :src="item.restaurant.thumb">
                     <img v-else src='https://i.ibb.co/sbkYD3d/64dffaa58ffa55a377cdf42b6a690e721585809275.png'>
-                    <h style="font-size: 1.5em;">{{item.restaurant.name}}</h>
+                    <h3 style="font-size: 1.5em;">{{item.restaurant.name}}</h3>
                     <p style="font-size: 1em; color:gray;">{{slicing(item.restaurant.cuisines)}}</p>       
               </div><br>
             </div>
