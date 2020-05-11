@@ -53,7 +53,6 @@ export default new Vuex.Store({
             if(RATING_SORT.length>0)
                 URL+="sort=rating&order="+RATING_SORT+"&"
             URL=URL.slice(0,-1)  
-            console.log(URL)  
             return Axios.get(URL,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
