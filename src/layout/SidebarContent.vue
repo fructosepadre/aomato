@@ -28,6 +28,11 @@ export default {
              return this.checkedFacet=localStorage.getItem("Distance")}
         else if(this.facet=='Categories'){ 
             return this.checkedFacet=localStorage.getItem("Categories")}
+
+        if(this.facet=='Cost for 2'){
+             return this.checkedFacet=localStorage.getItem("Cost for 2")}
+        else if(this.facet=='Rating'){
+             return this.checkedFacet=localStorage.getItem("Rating")}
     },
     data:()=>({
         checkedFacet:'',
@@ -35,11 +40,11 @@ export default {
     methods:{
         enable(facet){
             localStorage.setItem(facet,this.checkedFacet)
-            this.$store.dispatch('RestaurantsFromFacets') 
+            this.$store.dispatch('restaurantsFromFacets') 
         },
         refresh(){
             this.checkedFacet=''
-            this.$store.dispatch('RestaurantsFromFacets')
+            this.$store.dispatch('restaurantsFromFacets')
         },
     }
 }

@@ -8,11 +8,10 @@ export default new Vuex.Store({
     state:{
         lat:'12.9151677',
         long:'77.6496451',
-        zomatoApiKey:'d05fa7a233bacb1b0b1f3c84feae4df7',
+        zomatoApiKey:'609580fc2c9ee708511fa0e89b3acef5',
         restaurants_from_search:{},
         searchDropdown:{},
         categories:{},
-        selectedRestaurant:'',
         restaurantDetails:{},
         reccomendation:{}
     },
@@ -22,9 +21,6 @@ export default new Vuex.Store({
         },
         SET_CATEGORIES(state,data){
             state.categories=data
-        },
-        SET_SELECTED_RESTAURANT(state,data){
-            state.selectedRestaurant=data
         },
         SET_SEARCH_DROPDOWN(state,data){
             state.searchDropdown=data
@@ -37,13 +33,27 @@ export default new Vuex.Store({
         },        
     },
     actions:{
-        RestaurantsFromFacets(context){
-            let query=localStorage.getItem('searchQuery')
-            let distance=localStorage.getItem('Distance')
-            let cuisine=localStorage.getItem('Cuisine')
-            let category=localStorage.getItem('Categories')
-            return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
-            this.state.lat+"&lon="+this.state.long+"&count=10&q="+query+"&radius="+distance+"&cuisines="+cuisine+"&establishment_type="+category,{
+        restaurantsFromFacets(context){
+            const QUERY=localStorage.getItem('searchQuery')
+            const DISTANCE=localStorage.getItem('Distance')
+            const CUISINE=localStorage.getItem('Cuisine')
+            const CATEGORY=localStorage.getItem('Categories')
+            const COST_SORT=this.checkedFacet=localStorage.getItem("Cost for 2")
+            const RATING_SORT=this.checkedFacet=localStorage.getItem("Rating")
+            let URL='https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
+                this.state.lat+"&lon="+this.state.long+"&count=10&q="+QUERY+"&"
+            if(DISTANCE){
+                URL+="radius="+DISTANCE+"&"}
+            if(CUISINE){
+                URL+="cuisines="+CUISINE+"&"}
+            if(CATEGORY)
+                URL+="establishment_type="+CATEGORY+"&"
+            if(COST_SORT)
+                URL+="sort=cost&order="+COST_SORT+"&"
+            if(RATING_SORT)
+                URL+="sort=rating&order="+RATING_SORT+"&"
+            URL=URL.slice(0,-1)    
+            return Axios.get(URL,{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
                     "content-type": "application/json"
@@ -54,7 +64,7 @@ export default new Vuex.Store({
                 context.commit('SET_RECOMMENDATION',response.data.restaurants) 
             })
         },
-        RestaurantsInDropDrown(context,data){
+        restaurantsInDropDrown(context,data){
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
             this.state.lat+"&lon="+this.state.long+"&count=8&q="+data,{
                 headers:{
@@ -67,7 +77,7 @@ export default new Vuex.Store({
                 context.commit('SET_RECOMMENDATION',response.data.restaurants) 
             })
         },
-        Restaurants(context){
+        restaurants(context){
             let query=localStorage.getItem('searchQuery')
             return Axios.get('https://developers.zomato.com/api/v2.1/search?entity_type=city&lat='+
             this.state.lat+"&lon="+this.state.long+"&count=10&q="+query,{
@@ -81,7 +91,7 @@ export default new Vuex.Store({
                 context.commit('SET_RECOMMENDATION',response.data.restaurants) 
             })
         },
-        Categories(context){
+        categories(context){
             return Axios.get('https://developers.zomato.com/api/v2.1/categories',{
                 headers:{
                     "user-key":this.state.zomatoApiKey,
@@ -92,7 +102,7 @@ export default new Vuex.Store({
                     context.commit('SET_CATEGORIES',response.data.categories)    
             })
         },
-        RestaurantDetails(context){
+        restaurantDetails(context){
             let res_id=localStorage.getItem('res_id')        
             return Axios.get('https://developers.zomato.com/api/v2.1/restaurant?res_id='+res_id,{
                 headers:{
@@ -106,22 +116,19 @@ export default new Vuex.Store({
         }
     },
     getters:{
-        GET_CATEGORIES(state){
+        getCategories(state){
             return state.categories
         },
-        GET_SELECTED_RESTAURANT(state){
-            return state.selectedRestaurant
-        },
-        GET_RESTAURANT_DETAILS(state){
+        getRestaurantDetails(state){
             return state.restaurantDetails
         },
-        GET_RESTAURANTS_FROM_SEARCH(state){
+        getRestaurantsFromSearch(state){
             return state.restaurants_from_search
         },
-        GET_SEARCH_DROPDOWN(state){
+        getSearchDropdown(state){
             return state.searchDropdown
         },
-        GET_RECOMMENDATION(state){
+        getRecommendation(state){
             return state.reccomendation
         },
     },

@@ -1,7 +1,6 @@
 <template>
       <div id="app">
             <Header/>
-            <br>
           <router-view/>
       </div>
 </template>
@@ -10,8 +9,6 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Header from '@/layout/Header.vue'
-// import 'node_modules/bootstrap/scss/bootstrap';
-// import 'node_modules/bootstrap-vue/src/index.scss';
 export default {
   name: 'App',
   components: {

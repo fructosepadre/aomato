@@ -1,8 +1,8 @@
 <template>
 <div class="bodz" style="display:flex; flex-direction:row">
     <Sidebar type="Filters" style="margin-left: 5vh; height:100vh; "/>
-    <div v-if="GET_RESTAURANTS_FROM_SEARCH.length>0" class="page-body">
-         <div v-for="(item, index) in GET_RESTAURANTS_FROM_SEARCH" :key="index">
+    <div v-if="getRestaurantsFromSearch.length>0" class="page-body">
+         <div v-for="(item, index) in getRestaurantsFromSearch" :key="index">
             <div class="card" @click="showProductDetails(item.restaurant.R.res_id)">
                 <div class="first"> 
                     <div style="color: crimson; font-size: 2em; flex-basis:80%">
@@ -36,18 +36,18 @@ export default {
     Sidebar
   },
     computed:{
-      ...mapGetters(['GET_RESTAURANTS_FROM_SEARCH','GET_RESTAURANTS_FROM_SEARCH']),
+      ...mapGetters(['getRestaurantsFromSearch']),
     },
     mounted(){
-        this.$store.dispatch('Restaurants')
+        this.$store.dispatch('restaurants')
     },
     methods:{
         getSize(){
-            return this.$store.getters.GET_RESTAURANTS_FROM_SEARCH.length;
+            return this.$store.getters.getRestaurantsFromSearch.length;
         },
         showProductDetails(data){
             localStorage.setItem('res_id',data)            
-            this.$store.dispatch('RestaurantDetails').then(()=>{this.$router.push('/restaurant-details')
+            this.$store.dispatch('restaurantDetails').then(()=>{this.$router.push('/restaurant-details')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})})
         },
         slicing(data){

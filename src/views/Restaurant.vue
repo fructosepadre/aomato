@@ -11,17 +11,17 @@
       <br>
       <div class="restaurant-info flexrow">
         <div class="restaurant" style="flex-basis:90%; text-align:left;">
-            <div style="font-size: 2em;">{{GET_RESTAURANT_DETAILS.name}}<br></div>
-            <div style="font-size: 1em;">{{GET_RESTAURANT_DETAILS.cuisines}}<br></div>
-            <div style="font-size: 1em; color:grey;">{{GET_RESTAURANT_DETAILS.location.locality}}<br><br></div>
-            {{GET_RESTAURANT_DETAILS.timings}}<br>
-            <div style="font-size: 1em; color:crimson;"><b>Average cost for 2 : Rs. {{GET_RESTAURANT_DETAILS.average_cost_for_two}}</b><br></div>
+            <div style="font-size: 2em;">{{getRestaurantDetails.name}}<br></div>
+            <div style="font-size: 1em;">{{getRestaurantDetails.cuisines}}<br></div>
+            <div style="font-size: 1em; color:grey;">{{getRestaurantDetails.location.locality}}<br><br></div>
+            {{getRestaurantDetails.timings}}<br>
+            <div style="font-size: 1em; color:crimson;"><b>Average cost for 2 : Rs. {{getRestaurantDetails.average_cost_for_two}}</b><br></div>
         </div>
         <div class="rating" style="flex-basis:10%; text-align:center; border-radius:2vh; background-color:rgb(79, 223, 35);">
           <br>
           User Rating<hr>
-          {{GET_RESTAURANT_DETAILS.user_rating.aggregate_rating}}<hr>
-          {{GET_RESTAURANT_DETAILS.user_rating.votes}} votes
+          {{getRestaurantDetails.user_rating.aggregate_rating}}<hr>
+          {{getRestaurantDetails.user_rating.votes}} votes
         </div>
       </div>
       <br>
@@ -32,21 +32,21 @@
             <br><br><br>
             <p style="font-size: 1.5em;">Cuisines</p>
             <div class="cuisine flexrow">
-              <div v-for="(item,index) in getCuisines(GET_RESTAURANT_DETAILS.cuisines)" :key="index">
+              <div v-for="(item,index) in getCuisines(getRestaurantDetails.cuisines)" :key="index">
                 <div v-if="index<4"><b-button style="border-radius:5vh; margin-right:2vh;" variant="outline-secondary" @click="searchByCuisine(item)">{{item}}</b-button></div>  
               </div>
             </div>
             <br><br>
             <p style="font-size: 1.5em;">Payment Methods:</p>
-            <div v-for="(item,index) in GET_RESTAURANT_DETAILS.highlights" :key="index">
+            <div v-for="(item,index) in getRestaurantDetails.highlights" :key="index">
                 <div v-if="item=='Credit Card'">{{item}}</div>
                 <div v-if="item=='Debit Card'">{{item}}</div>
                 <div v-if="item=='Cash'">{{item}}</div>
             </div>
             <br><br>
-            <p v-if="GET_RECOMMENDATION.length>1" style="color:gray">RECOMMENDATIONS:</p>
-            <div class="recco" v-for="(item, index) in GET_RECOMMENDATION" :key="index">
-              <div class="recco-Card" v-if="index<3 && item.restaurant.name!=GET_RESTAURANT_DETAILS.name" @click="showProductDetails(item.restaurant.R.res_id)"> 
+            <p v-if="getRecommendation.length>1" style="color:gray">RECOMMENDATIONS:</p>
+            <div class="recco" v-for="(item, index) in getRecommendation" :key="index">
+              <div class="recco-Card" v-if="index<3 && item.restaurant.name!=getRestaurantDetails.name" @click="showProductDetails(item.restaurant.R.res_id)"> 
                     <img v-if="item.restaurant.thumb.length>0" :src="item.restaurant.thumb">
                     <img v-else src='https://i.ibb.co/sbkYD3d/64dffaa58ffa55a377cdf42b6a690e721585809275.png'>
                     <h style="font-size: 1.5em;">{{item.restaurant.name}}</h>
@@ -56,12 +56,12 @@
           </div>
           <div class="contact-card">
             <div style="padding: 3vh 3vh 3vh 3vh">
-              <b-button @click="showOnMap(GET_RESTAURANT_DETAILS.name,GET_RESTAURANT_DETAILS.location.locality_verbose)" variant="outline-secondary" style="color:blue">Directions</b-button><br>
+              <b-button @click="showOnMap(getRestaurantDetails.name,getRestaurantDetails.location.locality_verbose)" variant="outline-secondary" style="color:blue">Directions</b-button><br>
               <br>
               <p style="font-size: 1.5em;">Call</p>
-              <p style="font-size: 1em; color:red;">{{GET_RESTAURANT_DETAILS.phone_numbers}}</p>
+              <p style="font-size: 1em; color:red;">{{getRestaurantDetails.phone_numbers}}</p>
               <p style="font-size: 1.5em;">Address</p>
-              <p style="font-size: 1em; color:gray;">{{GET_RESTAURANT_DETAILS.location.address}}</p>
+              <p style="font-size: 1em; color:gray;">{{getRestaurantDetails.location.address}}</p>
             </div>
           </div>
       </div>
@@ -71,10 +71,10 @@
 import {mapGetters} from 'vuex'
 export default {
     computed:{
-      ...mapGetters(['GET_RESTAURANT_DETAILS','GET_RECOMMENDATION']),
+      ...mapGetters(['getRestaurantDetails','getRecommendation']),
     },
     mounted(){
-        this.$store.dispatch('RestaurantDetails')
+        this.$store.dispatch('restaurantDetails')
     },
     methods:{
       showOnMap:(data,data2)=>{
@@ -86,7 +86,7 @@ export default {
       },
       showProductDetails(data){
         localStorage.setItem('res_id',data)        
-        this.$store.dispatch('RestaurantDetails').then(()=>{this.$router.replace('/restaurant-details')
+        this.$store.dispatch('restaurantDetails').then(()=>{this.$router.replace('/restaurant-details')
         this.$store.commit('SET_SEARCH_DROPDOWN',{})})
       },
       slicing(data){
@@ -99,7 +99,7 @@ export default {
       searchByCuisine(searchData){
         localStorage.setItem('searchQuery',searchData)
         localStorage.setItem("Cuisine",null)
-        this.$store.dispatch('RestaurantsFromFacets').then(()=>{this.$router.replace('/search')})
+        this.$store.dispatch('restaurantsFromFacets').then(()=>{this.$router.replace('/search')})
       }
     }
 }

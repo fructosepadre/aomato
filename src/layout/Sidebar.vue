@@ -11,7 +11,7 @@
             <div v-if="type=='Sort'">
             <p style="font-size: 1.5em;">{{type}}</p>
             <hr>
-             <SidebarContent facet="Average Cost for 2" :options="cost"/>
+             <SidebarContent facet="Cost for 2" :options="cost"/>
              <SidebarContent facet="Rating" :options="rating"/>
             </div>   
         </div>

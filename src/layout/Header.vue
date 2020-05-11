@@ -18,7 +18,7 @@
                 </b-input-group>
             </div>  
             <div class="searchResultContainer">
-                <div v-for="(item, index) in GET_SEARCH_DROPDOWN" :key="index" @click="showProductDetails(item.restaurant.R.res_id)">
+                <div v-for="(item, index) in getSearchDropdown" :key="index" @click="showProductDetails(item.restaurant.R.res_id)">
                     <div class="searchResults">
                         <div>                        
                             <img v-if="item.restaurant.thumb.length>0" :src="item.restaurant.thumb">
@@ -38,7 +38,7 @@
 import {mapGetters} from 'vuex'
 export default {
     computed:{
-      ...mapGetters(['GET_SEARCH_DROPDOWN']),
+      ...mapGetters(['getSearchDropdown']),
       farFromHome(){
           return this.$route.name=="home"
       }
@@ -54,18 +54,18 @@ export default {
             if(event.key== "Enter")
                 return this.showResults()
 
-           this.$store.dispatch('RestaurantsInDropDrown',this.dish)
+           this.$store.dispatch('restaurantsInDropDrown',this.dish)
         },
         showProductDetails(data){
             localStorage.setItem('res_id',data)
-            this.$store.dispatch('RestaurantDetails')
+            this.$store.dispatch('restaurantDetails')
                 .then(()=>{this.$router.push('/restaurant-details')})
             this.dish=''
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
         },
         showResults: function(){
             localStorage.setItem('searchQuery',this.dish)
-            this.$store.dispatch('Restaurants').then(()=>{this.$router.push('/search')
+            this.$store.dispatch('restaurants').then(()=>{this.$router.push('/search')
             this.$store.commit('SET_SEARCH_DROPDOWN',{})
             })
             this.dish=''
