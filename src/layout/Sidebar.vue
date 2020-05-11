@@ -1,11 +1,19 @@
 <template>
     <div class="sidebar">
         <div class="sidebar-content">
-            <p style="font-size: 1.5em;">Filters</p>
+            <div v-if="type=='Filters'">
+            <p style="font-size: 1.5em;">{{type}}</p>
             <hr>
              <SidebarContent facet="Cuisine" :options="cuisines"/>
              <SidebarContent facet="Distance" :options="distance"/>
-             <SidebarContent facet="Categories" :options="categories" />            
+             <SidebarContent facet="Categories" :options="categories" />
+            </div>
+            <div v-if="type=='Sort'">
+            <p style="font-size: 1.5em;">{{type}}</p>
+            <hr>
+             <SidebarContent facet="Average Cost for 2" :options="cost"/>
+             <SidebarContent facet="Rating" :options="rating"/>
+            </div>   
         </div>
     </div>    
 </template>
@@ -14,6 +22,9 @@ import SidebarContent from '@/layout/SidebarContent.vue'
 export default {
     components: {
         SidebarContent
+    },
+    props:{
+        type:String
     },
     data: ()=>({ 
        distance: [
@@ -30,7 +41,15 @@ export default {
           { id: '21', value: 'Quick Bites'},
           { id: '31', value: 'Bakery'},
           { id: '23', value: 'Dessert Parlour'},
-        ]
+        ],
+        cost: [
+          { id: 'desc', value: 'High to Low'},
+          { id: 'asc', value: 'Low to High'},
+        ],
+        rating: [
+          { id: 'desc', value: 'High to Low'},
+          { id: 'asc', value: 'Low to High'},
+        ],
     }),
     methods:{
     }
@@ -39,10 +58,8 @@ export default {
 <style>
 .sidebar{
     margin-top: 10vh;
-    margin-left: 5vh;
     border-radius: 2vh;
     flex-basis: 15%;
-    height:100vh; 
     box-shadow: 0vh 0vh 1vh 0vh rgba(189, 162, 162, 0.4);
     position: sticky;
     top:0vh;

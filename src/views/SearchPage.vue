@@ -1,7 +1,7 @@
 <template>
 <div class="bodz" style="display:flex; flex-direction:row">
-    <Sidebar/>
-    <div class="page-body">
+    <Sidebar type="Filters" style="margin-left: 5vh; height:100vh; "/>
+    <div v-if="GET_RESTAURANTS_FROM_SEARCH.length>0" class="page-body">
          <div v-for="(item, index) in GET_RESTAURANTS_FROM_SEARCH" :key="index">
             <div class="card" @click="showProductDetails(item.restaurant.R.res_id)">
                 <div class="first"> 
@@ -22,6 +22,10 @@
             </div>
         </div>
     </div>
+        <div v-else class="page-body" style="height:100vh">
+            No results! Try searching something else......
+        </div>
+    <Sidebar type="Sort" style="margin-right: 5vh; height:60vh; "/>
  </div>   
 </template>
 <script>
@@ -59,11 +63,11 @@ export default {
 <style scoped>
 .page-body{
     margin-top: 10vh;
-    margin-left: 2vh;
+    margin-left: 10vh;
     margin-right: 10vh;
     display: flex;
     flex-wrap: wrap;
-    flex-basis: 75%;
+    flex-basis: 70%;
     justify-content: space-evenly;
     background-color: ivory;
 }
